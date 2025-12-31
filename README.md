@@ -58,7 +58,7 @@ make run
 ```
 پس از اجرا باید ببینید:
 ```
-kvstore-backup1         Built                                                                                   0.0s
+ ✔ kvstore-backup1         Built                                                                                   0.0s
  ✔ kvstore-backup2         Built                                                                                   0.0s
  ✔ kvstore-primary         Built                                                                                   0.0s
  ✔ Network kvstore_kv-net  Created                                                                                 0.0s
