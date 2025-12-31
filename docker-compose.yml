@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # --- PRIMARY ---
+  primary:
+    build: .
+    container_name: kv-primary
+    command: >
+      -role primary 
+      -http-port 8080 
+      -grpc-port 50051 
+      -peers "backup1:50051,backup2:50051" 
+      -data /data
+    ports:
+      - "8080:8080"  
+    volumes:
+      - ./data-primary:/data
+    depends_on:
+      - backup1
+      - backup2
+    networks:
+      - kv-net
+
+
+  # --- BACKUP 1 ---
+  backup1:
+    build: .
+    container_name: kv-backup1
+    command: -role backup -http-port 8080 -grpc-port 50051 -data /data
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./data-backup1:/data
+    networks:
+      - kv-net
+
+
+  # --- BACKUP 2 ---
+  backup2:
+    build: .
+    container_name: kv-backup2
+    command: -role backup -http-port 8080 -grpc-port 50051 -data /data
+    ports:
+      - "8082:8080" 
+    volumes:
+      - ./data-backup2:/data
+    networks:
+      - kv-net
+
+networks:
+  kv-net:
+    driver: bridge

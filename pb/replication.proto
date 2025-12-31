@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package replication;
+
+service Replication {
+  rpc Replicate (ReplicateRequest) returns (ReplicateResponse);
+  rpc Prepare (PrepareRequest) returns (PrepareResponse);
+  rpc Commit (CommitRequest) returns (CommitResponse);
+  rpc Abort (AbortRequest) returns (AbortResponse);
+}
+
+message ReplicateRequest {
+  string collection = 1;
+  string key = 2;
+  bytes value = 3;
+}
+
+message ReplicateResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message PrepareRequest {
+  string transaction_id = 1;
+  string collection = 2;
+  string key = 3;
+  bytes value = 4;
+}
+
+message PrepareResponse {
+  bool vote = 1;  // true = YES, false = NO
+  string error = 2;
+}
+
+message CommitRequest {
+  string transaction_id = 1;
+}
+
+message CommitResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message AbortRequest {
+  string transaction_id = 1;
+}
+
+message AbortResponse {
+  bool success = 1;
+  string error = 2;
+}
