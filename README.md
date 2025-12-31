@@ -54,17 +54,17 @@ make proto
 
 ### 2.1. اجرا
 ```bash
-go run ./main.go
-
-# Windows - PowerShell
-$env:APP_ADDR=":8080"; $env:DATA_DIR="$PWD\data"; go run .\main.go
-
-# Windows - CMD
-set APP_ADDR=:8080 & set DATA_DIR=%cd%\data & go run .\main.go
+make run
 ```
 پس از اجرا باید ببینید:
 ```
-listening on :8080 (data: ./data)
+kvstore-backup1         Built                                                                                   0.0s
+ ✔ kvstore-backup2         Built                                                                                   0.0s
+ ✔ kvstore-primary         Built                                                                                   0.0s
+ ✔ Network kvstore_kv-net  Created                                                                                 0.0s
+ ✔ Container kv-backup1    Created                                                                                 0.1s
+ ✔ Container kv-backup2    Created                                                                                 0.1s
+ ✔ Container kv-primary    Created
 ```
 
 ### 2.2. تست سریع با curl
