@@ -1,9 +1,16 @@
 version: '3.8'
 
+networks:
+  kv-net:
+    driver: bridge
+
 services:
   # --- PRIMARY ---
   primary:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: kvstore:latest
     container_name: kv-primary
     command: >
       -role primary 
@@ -20,11 +27,12 @@ services:
       - backup2
     networks:
       - kv-net
+    restart: unless-stopped
 
 
   # --- BACKUP 1 ---
   backup1:
-    build: .
+    image: kvstore:latest
     container_name: kv-backup1
     command: -role backup -http-port 8080 -grpc-port 50051 -data /data
     ports:
@@ -33,11 +41,12 @@ services:
       - ./data-backup1:/data
     networks:
       - kv-net
+    restart: unless-stopped
 
 
   # --- BACKUP 2 ---
   backup2:
-    build: .
+    image: kvstore:latest
     container_name: kv-backup2
     command: -role backup -http-port 8080 -grpc-port 50051 -data /data
     ports:
@@ -46,7 +55,4 @@ services:
       - ./data-backup2:/data
     networks:
       - kv-net
-
-networks:
-  kv-net:
-    driver: bridge
+    restart: unless-stopped
